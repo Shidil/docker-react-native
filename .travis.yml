@@ -1,0 +1,9 @@
+
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker build -t shidil/docker-react-native .
+  - docker run shidil/docker-react-native /bin/sh -c "node -v && yarn -v && /opt/android/tools/bin/sdkmanager --list"
