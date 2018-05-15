@@ -40,3 +40,24 @@ RUN mkdir android && cd android && \
     echo y | ./tools/bin/sdkmanager ${ANDROID_BUILD_TOOLS_VERSION_23} && \
     chmod a+x -R $ANDROID_HOME && \
 chown -R root:root $ANDROID_HOME
+
+# Install nodejs
+RUN apt-get update -y && apt-get install --no-install-recommends -y -q curl python build-essential git ca-certificates && \
+    mkdir /nodejs && \
+    curl http://nodejs.org/dist/v${NODEJS_VERSION}/node-v${NODEJS_VERSION}-linux-x86.tar.gz | tar xvzf - -C /nodejs --strip-components=1 && \
+    chown -R 1000 /nodejs
+
+# install ncftp
+RUN apt-get install ncftp
+
+# Install yarn
+RUN npm install --global yarn
+
+# Clean up steps
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    apt-get autoremove -y && \
+    apt-get clean
+
+# Add 1000 user/group to get git working
+RUN groupadd --gid 1000 node && \
+useradd --uid 1000 --gid node --shell /bin/bash --create-home /nodejs
