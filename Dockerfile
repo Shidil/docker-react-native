@@ -7,6 +7,7 @@ LABEL MAINTAINER="Shidil Eringa <shidil@live.com>"
 
 # Variables
 ENV ANDROID_SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip" \
+    ANDROID_SUPPORT_LIBS="extras;google;m2repository extras;android;m2repository platform-tools" \
     ANDROID_BUILD_TOOLS_VERSION_26="build-tools;26.0.1 build-tools;26.0.2" \
     ANDROID_BUILD_TOOLS_VERSION_25="build-tools;25.0.2 build-tools;25.0.3" \
     ANDROID_BUILD_TOOLS_VERSION_23="build-tools;23.0.1" \
@@ -32,8 +33,7 @@ RUN mkdir /root/.android && touch /root/.android/repositories.cfg
 RUN mkdir android && cd android && \
     wget -O tools.zip ${ANDROID_SDK_URL} && \
     unzip tools.zip && rm tools.zip && \
-    echo y | ./tools/bin/sdkmanager "extras;android;m2repository" && \
-    echo y | ./tools/bin/sdkmanager platform-tools && \
+    echo y | ./tools/bin/sdkmanager ${ANDROID_SUPPORT_LIBS} && \
     echo y | ./tools/bin/sdkmanager ${ANDROID_APIS} && \
     echo y | ./tools/bin/sdkmanager ${ANDROID_BUILD_TOOLS_VERSION_26} && \
     echo y | ./tools/bin/sdkmanager ${ANDROID_BUILD_TOOLS_VERSION_25} && \
